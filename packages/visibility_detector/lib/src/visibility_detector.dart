@@ -110,6 +110,8 @@ class VisibilityInfo {
     required this.key,
     this.size = Size.zero,
     this.visibleBounds = Rect.zero,
+    this.widgetBounds = Rect.zero,
+    this.clipRect = Rect.zero,
   }) : assert(key != null);
 
   /// Constructs a [VisibilityInfo] from widget bounds and a corresponding
@@ -135,6 +137,8 @@ class VisibilityInfo {
       key: key,
       size: widgetBounds.size,
       visibleBounds: visibleBounds,
+      widgetBounds: widgetBounds,
+      clipRect: clipRect,
     );
   }
 
@@ -150,6 +154,9 @@ class VisibilityInfo {
   /// expectations for the [VisibilityChangedCallback] to fire if the widget's
   /// position changes but retains the same visibility.
   final Rect visibleBounds;
+
+  final Rect widgetBounds;
+  final Rect clipRect;
 
   /// A fraction in the range \[0, 1\] that represents what proportion of the
   /// widget is visible (assuming rectangular bounding boxes).
@@ -188,7 +195,10 @@ class VisibilityInfo {
     // that we don't need to fire callbacks for both.  This could be pertinent
     // if other properties are added.
     assert(info != null);
-    return size == info.size && visibleBounds == info.visibleBounds;
+    return size == info.size &&
+        visibleBounds == info.visibleBounds &&
+        widgetBounds == info.widgetBounds &&
+        clipRect == info.clipRect;
   }
 
   @override
